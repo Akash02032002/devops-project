@@ -2,7 +2,7 @@ services:
   mongo:
     image: mongo:6.0
     container_name: mongo
-    restart: always
+    restart: unless-stopped
     volumes:
       - mongo-data:/data/db
     networks:
@@ -13,7 +13,7 @@ services:
       context: ./server
       dockerfile: Dockerfile
     container_name: backend
-    restart: always
+    restart: unless-stopped
     env_file:
       - ./server/.env        
     ports:
@@ -28,9 +28,9 @@ services:
       context: ./client
       dockerfile: Dockerfile
       args:
-        VITE_API_URL: http://54.91.56.213:5000/api
+        VITE_API_URL: http://localhost:5000/api
     container_name: frontend
-    restart: always
+    restart: unless-stopped
     ports:
       - "5173:5173"
     depends_on:
